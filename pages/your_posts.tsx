@@ -1,6 +1,10 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import YourPosts from "../components/YourPosts/YourPosts";
+import { useEffect } from "react";
+import { useAppDispatch } from "../store/hooks";
+import { auth } from "../firebase";
+import { authActions } from "../store/auth-slice";
 
 const your_posts: NextPage = () => {
   return (

@@ -5,10 +5,17 @@ import PostItem from "./Post";
 const Posts = () => {
   const users = useAppSelector((state) => state.data.users);
   const posts = users.flatMap((each) => each.posts);
-  console.log(posts);
+  // console.log(posts);
+  const thePosts = [...posts];
+  thePosts.sort((a, b) => {
+    if (a.time.toMillis() > b.time.toMillis()) return -1;
+    else {
+      return 1;
+    }
+  });
   return (
     <section className="w-full flex flex-col items-center p-14">
-      {posts.map((post: Post) => (
+      {thePosts.map((post: Post) => (
         <PostItem
           id={post.id}
           author={post.author_name}

@@ -31,8 +31,6 @@ const Navbar: React.FC = () => {
     (each) => each.id === curUser?.uid
   );
 
-  console.log(curUserProfile);
-
   const router = useRouter();
   return (
     <>

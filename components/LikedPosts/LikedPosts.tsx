@@ -3,6 +3,11 @@ import { useAppSelector } from "../../store/hooks";
 
 const LikedPosts: React.FC = () => {
   const curUser = useAppSelector((state) => state.auth.curUser);
+
+  const posts = useAppSelector((state) => state.data.users).flatMap(
+    (each) => each.posts
+  );
+
   return (
     <>
       {!curUser ? (
@@ -14,6 +19,7 @@ const LikedPosts: React.FC = () => {
           <header>
             <h1 className="text-3xl font-serif">Liked Posts</h1>
           </header>
+          <main>{}</main>
         </section>
       )}
     </>

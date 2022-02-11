@@ -14,15 +14,8 @@ import { authActions } from "../store/auth-slice";
 import { useRouter } from "next/router";
 import { onSnapshot, collection } from "firebase/firestore";
 
-/* 
-Steps: 
-1. Create A form with the title, description, category, and body(text editor)
-2. Add That to firebase and display it on home page 
- */
-
 const Home = () => {
   const dispatch = useAppDispatch();
-  // dispatch(dataActions.setPosts(props.posts));
 
   //Authentication
   useEffect(() => {
@@ -65,7 +58,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// export const getServerSideProps = async () => {
-
-// };
