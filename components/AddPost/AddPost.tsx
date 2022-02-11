@@ -125,7 +125,8 @@ const AddPost: React.FC = () => {
             <div className="h-full">
               <label className="font-serif text-xl">Body</label>
               <Editor
-                toolbarClassName="flex mx-auto  w-full"
+                placeholder="Start Creating Your Blog..."
+                toolbarClassName="flex mx-auto w-full"
                 editorState={editorState}
                 onEditorStateChange={handleEditorChange}
                 plugins={[imagePlugin, linkPlugin, inlineToolbarPlugin]}

@@ -16,7 +16,7 @@ const YourPosts: React.FC = () => {
   };
   const curUser = useAppSelector((state) => state.auth.curUser);
   const curUserProfile = useAppSelector((state) => state.data.users).find(
-    (each) => each.id === curUser.uid
+    (each) => each.id === curUser?.uid
   );
   if (!curUserProfile) return <></>;
   const curUserPosts = [...curUserProfile!.posts];
@@ -105,7 +105,6 @@ const YourPosts: React.FC = () => {
               </TabPanel>
             </TabContext>
           </header>
-          <main>{/* {curUserProfile.map(post => )} */}</main>
         </section>
       )}
     </>

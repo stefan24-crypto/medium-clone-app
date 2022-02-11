@@ -19,8 +19,18 @@ import { LogoutOutlined, MenuBook } from "@mui/icons-material";
 import { auth } from "../../firebase";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const Navbar: React.FC = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const [showLogin, setShowLogin] = useState(false);
   const stopShowingLogin = () => {
     setShowLogin(false);
@@ -84,16 +94,37 @@ const Navbar: React.FC = () => {
         <div className="p-8">
           {curUserProfile ? (
             <div className="cursor-pointer">
-              <IconButton
-                className="text-black"
-                onClick={() => {
-                  router.push("/");
-                  auth.signOut();
+              <Avatar
+                src={curUserProfile?.pic}
+                alt="profile_pic"
+                onClick={handleClick}
+              />
+              <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="demo-positioned-button"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
                 }}
               >
-                <LogoutOutlined />
-              </IconButton>
-              <Avatar src={curUserProfile?.pic} alt="profile_pic" />
+                <MenuItem>Followers</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    auth.signOut();
+                    setAnchorEl(null);
+                  }}
+                >
+                  Logout
+                </MenuItem>
+                <MenuItem onClick={handleClose}>Delete</MenuItem>
+              </Menu>
             </div>
           ) : (
             <>

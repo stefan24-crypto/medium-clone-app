@@ -36,7 +36,7 @@ const PostItem: React.FC<PostProps> = ({
     .find((each) => each.id === id)
     ?.liked_by.map((user) => user.id);
   const curUser = useAppSelector((state) => state.auth.curUser);
-  const isLikedByCurUser = likedByIDs?.includes(curUser.uid);
+  const isLikedByCurUser = likedByIDs?.includes(curUser?.uid);
   const router = useRouter();
 
   const thisPost = clickedOnPostProfile?.posts.find((each) => each.id === id);
@@ -100,7 +100,7 @@ const PostItem: React.FC<PostProps> = ({
   };
 
   return (
-    <section className="pt-8 w-full border-b-2">
+    <section className="pt-8 w-full border-b">
       <div className="flex items-center  justify-between ">
         <div className="flex flex-col gap-4 w-3/4 ">
           <div className="flex items-center gap-4">
@@ -136,6 +136,7 @@ const PostItem: React.FC<PostProps> = ({
         <IconButton onClick={toggleLikedHandler}>
           {isLikedByCurUser ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
         </IconButton>
+        <sub>{thisPost?.liked_by.length}</sub>
       </footer>
     </section>
   );
