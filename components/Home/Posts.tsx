@@ -17,6 +17,7 @@ const Posts = () => {
   };
   const curUser = useAppSelector((state) => state.auth.curUser);
   const users = useAppSelector((state) => state.data.users);
+  const curUserProfile = users.find((user) => user.id === curUser?.uid);
   const otherUsers = users.filter((user) => user.id !== curUser?.uid);
   const posts = users.flatMap((each) => each.posts);
   const thePosts = [...posts];
@@ -26,6 +27,12 @@ const Posts = () => {
       return 1;
     }
   });
+
+  //Filtering
+  const followedUserNames = curUserProfile?.following.map((each) => each.name);
+  const followedUserPosts = posts.filter((post) =>
+    followedUserNames?.includes(post.author_name)
+  );
 
   return (
     <section className="flex">
@@ -62,7 +69,21 @@ const Posts = () => {
             </section>
           </TabPanel>
           <TabPanel value="2">
-            <section className="w-full p-14"></section>
+            <section className="w-full p-14">
+              {followedUserPosts.map((post) => (
+                <PostItem
+                  id={post.id}
+                  author={post.author_name}
+                  mainImage={post.main_image}
+                  key={post.id}
+                  description={post.description}
+                  title={post.title}
+                  pic={post.author_profile_pic}
+                  createdAt={post.time}
+                  category={post.category}
+                />
+              ))}
+            </section>
           </TabPanel>
         </TabContext>
       </Box>
