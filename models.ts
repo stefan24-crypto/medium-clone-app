@@ -20,6 +20,8 @@ export interface User {
   name: string;
   pic: string;
   bio: string;
+  following: Person[];
+  followed_by: Person[];
   posts: Post[];
 }
 
