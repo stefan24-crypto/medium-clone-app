@@ -16,11 +16,13 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import EditIcon from "@mui/icons-material/Edit";
 import { useAppSelector } from "../../store/hooks";
 import { LogoutOutlined, MenuBook } from "@mui/icons-material";
-import { auth } from "../../pages/firebase";
+import { auth, db } from "../../pages/firebase";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { deepCopy } from "@firebase/util";
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -28,6 +30,7 @@ const Navbar: React.FC = () => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const router = useRouter();
   const users = useAppSelector((state) => state.data.users);
   const handleClose = () => {
     setAnchorEl(null);
@@ -41,33 +44,48 @@ const Navbar: React.FC = () => {
 
   const curUserProfile = users.find((each) => each.id === curUser?.uid);
 
-  const deleteAccountHandler = () => {
+  const deleteAccountHandler = async () => {
     const approved = prompt(
       "Are you sure you would like to delete your account, y or n? "
     );
+
     if (approved === "y") {
       //Remove From following and followed_by list:
-      const filteredFollowing = users.map((user) =>
-        user.following.map((each) => {
-          if (each.id !== curUser.uid) {
-            return each;
-          } else {
-            return null;
-          }
-        })
-      );
-      console.log(filteredFollowing);
-      // const filteredFollowers = users.map((user) =>
-      //   user.followed_by.filter((each) => each.id !== curUser?.uid)
-      // );
-      // remove from likes
+      users.map(async (user) => {
+        const userDoc = doc(db, "users", user.id);
+        const updatedFollowing = user.following.filter(
+          (each) => each.id !== curUser.uid
+        );
+        // console.log(updatedFollowing);
+        const newFields = {
+          following: [...updatedFollowing],
+        };
+        await updateDoc(userDoc, newFields);
+        const updatedFollowed_by = user.followed_by.filter(
+          (each) => each.id !== curUser.uid
+        );
+        // console.log(updatedFollowed_by);
+        const newFields2 = {
+          followed_by: [...updatedFollowed_by],
+        };
+        await updateDoc(userDoc, newFields2);
+
+        // // remove from likes
+        // user.posts.map((post) => {
+        //   const filteredLikedBy = post.liked_by.filter(
+        //     (each) => each.id !== curUser.uid
+        //   );
+        //   console.log(filteredLikedBy);
+        // });
+      });
       //Delete from users
-      //auth.delete();
+      await deleteDoc(doc(db, "users", curUser?.uid));
+      auth.currentUser?.delete();
+      auth.signOut();
     }
     setAnchorEl(null);
   };
 
-  const router = useRouter();
   return (
     <>
       {showLogin && <Login stopShowingLogin={stopShowingLogin} />}

@@ -4,11 +4,11 @@ import PostDetail from "../../components/PostDetail/PostDetail";
 import { useAppSelector } from "../../store/hooks";
 import Head from "next/head";
 import { useAppDispatch } from "../../store/hooks";
-import { auth } from "../firebase";
+import { auth } from "../../pages/firebase";
 import { authActions } from "../../store/auth-slice";
 import { useEffect } from "react";
 import { onSnapshot, collection } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../pages/firebase";
 import { dataActions } from "../../store/data-slice";
 
 const PostPage = () => {
