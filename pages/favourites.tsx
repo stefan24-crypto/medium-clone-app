@@ -3,10 +3,10 @@ import Head from "next/head";
 import LikedPosts from "../components/LikedPosts/LikedPosts";
 import { useAppDispatch } from "../store/hooks";
 import { useEffect } from "react";
-import { auth } from "../firebase";
+import { auth } from "./firebase";
 import { authActions } from "../store/auth-slice";
 import { onSnapshot, collection } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "./firebase";
 import { dataActions } from "../store/data-slice";
 
 const Favourites = () => {

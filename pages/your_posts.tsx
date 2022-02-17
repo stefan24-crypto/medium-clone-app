@@ -3,7 +3,7 @@ import Head from "next/head";
 import YourPosts from "../components/YourPosts/YourPosts";
 import { useAppDispatch } from "../store/hooks";
 import { useEffect } from "react";
-import { auth, db } from "../firebase";
+import { auth, db } from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import { authActions } from "../store/auth-slice";
 import { dataActions } from "../store/data-slice";
