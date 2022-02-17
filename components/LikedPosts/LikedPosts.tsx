@@ -21,7 +21,7 @@ const LikedPosts: React.FC = () => {
   if (likedByCurUserPosts.length === 0)
     return (
       <div className="w-full h-screen flex justify-center items-center">
-        <h1>You Have No Liked Posts</h1>
+        <h1 className="font-serif text-3xl">You Have No Liked Posts</h1>
       </div>
     );
 

@@ -18,7 +18,12 @@ const YourPosts: React.FC = () => {
   const curUserProfile = useAppSelector((state) => state.data.users).find(
     (each) => each.id === curUser?.uid
   );
-  if (!curUserProfile) return <></>;
+  if (!curUserProfile)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <h1 className="font-serif text-3xl">Please Login</h1>
+      </div>
+    );
   const curUserPosts = [...curUserProfile!.posts];
   if (value === "1") {
     curUserPosts.sort((a, b) => {
