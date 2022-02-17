@@ -70,19 +70,27 @@ const Posts = () => {
           </TabPanel>
           <TabPanel value="2">
             <section className="w-full p-14">
-              {followedUserPosts.map((post) => (
-                <PostItem
-                  id={post.id}
-                  author={post.author_name}
-                  mainImage={post.main_image}
-                  key={post.id}
-                  description={post.description}
-                  title={post.title}
-                  pic={post.author_profile_pic}
-                  createdAt={post.time}
-                  category={post.category}
-                />
-              ))}
+              {followedUserPosts.length === 0 ? (
+                <div className="w-96">
+                  <h1 className="text-3xl font-serif text-center">
+                    You are not Following Anyone. Login or Follow Someone
+                  </h1>
+                </div>
+              ) : (
+                followedUserPosts.map((post) => (
+                  <PostItem
+                    id={post.id}
+                    author={post.author_name}
+                    mainImage={post.main_image}
+                    key={post.id}
+                    description={post.description}
+                    title={post.title}
+                    pic={post.author_profile_pic}
+                    createdAt={post.time}
+                    category={post.category}
+                  />
+                ))
+              )}
             </section>
           </TabPanel>
         </TabContext>
