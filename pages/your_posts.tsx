@@ -1,12 +1,44 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import YourPosts from "../components/YourPosts/YourPosts";
-import { useEffect } from "react";
 import { useAppDispatch } from "../store/hooks";
-import { auth } from "../firebase";
+import { useEffect } from "react";
+import { auth, db } from "../firebase";
+import { onSnapshot, collection } from "firebase/firestore";
 import { authActions } from "../store/auth-slice";
+import { dataActions } from "../store/data-slice";
 
-const your_posts: NextPage = () => {
+const Your_posts = () => {
+  const dispatch = useAppDispatch();
+
+  //Authentication
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        dispatch(authActions.setCurUser(authUser));
+      } else {
+        dispatch(authActions.setCurUser(null));
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  //Data
+  useEffect(() => {
+    onSnapshot(collection(db, "users"), (snapshot) => {
+      snapshot.docs.map((doc) =>
+        dispatch(
+          dataActions.setUsers(
+            snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          )
+        )
+      );
+    });
+  }, []);
+
   return (
     <section>
       <Head>
@@ -19,4 +51,4 @@ const your_posts: NextPage = () => {
   );
 };
 
-export default your_posts;
+export default Your_posts;

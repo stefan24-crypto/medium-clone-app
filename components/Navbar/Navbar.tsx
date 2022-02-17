@@ -28,6 +28,7 @@ const Navbar: React.FC = () => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const users = useAppSelector((state) => state.data.users);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -37,9 +38,34 @@ const Navbar: React.FC = () => {
     console.log("here");
   };
   const curUser = useAppSelector((state) => state.auth.curUser);
-  const curUserProfile = useAppSelector((state) => state.data.users).find(
-    (each) => each.id === curUser?.uid
-  );
+
+  const curUserProfile = users.find((each) => each.id === curUser?.uid);
+
+  const deleteAccountHandler = () => {
+    const approved = prompt(
+      "Are you sure you would like to delete your account, y or n? "
+    );
+    if (approved === "y") {
+      //Remove From following and followed_by list:
+      const filteredFollowing = users.map((user) =>
+        user.following.map((each) => {
+          if (each.id !== curUser.uid) {
+            return each;
+          } else {
+            return null;
+          }
+        })
+      );
+      console.log(filteredFollowing);
+      // const filteredFollowers = users.map((user) =>
+      //   user.followed_by.filter((each) => each.id !== curUser?.uid)
+      // );
+      // remove from likes
+      //Delete from users
+      //auth.delete();
+    }
+    setAnchorEl(null);
+  };
 
   const router = useRouter();
   return (
@@ -114,7 +140,9 @@ const Navbar: React.FC = () => {
                   horizontal: "left",
                 }}
               >
-                <MenuItem>Followers</MenuItem>
+                <MenuItem>
+                  Followers {curUserProfile?.followed_by?.length}
+                </MenuItem>
                 <MenuItem
                   onClick={() => {
                     auth.signOut();
@@ -123,7 +151,12 @@ const Navbar: React.FC = () => {
                 >
                   Logout
                 </MenuItem>
-                <MenuItem onClick={handleClose}>Delete</MenuItem>
+                <MenuItem
+                  onClick={deleteAccountHandler}
+                  className="text-red-600"
+                >
+                  Delete
+                </MenuItem>
               </Menu>
             </div>
           ) : (
@@ -131,7 +164,6 @@ const Navbar: React.FC = () => {
               <IconButton
                 className="text-black"
                 onClick={() => {
-                  router.push("/");
                   setShowLogin(true);
                 }}
               >

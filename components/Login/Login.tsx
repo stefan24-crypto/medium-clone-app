@@ -37,6 +37,7 @@ const Login: React.FC<LoginProps> = ({ stopShowingLogin }) => {
   const passwordRef = useRef<HTMLInputElement>();
   const usernameRef = useRef<HTMLInputElement>();
   const profilePicRef = useRef<HTMLInputElement>();
+  const bioInputRef = useRef<HTMLInputElement>();
 
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -49,6 +50,7 @@ const Login: React.FC<LoginProps> = ({ stopShowingLogin }) => {
     if (!isLogin) {
       const displayName = usernameRef.current!.value;
       const photoURL = profilePicRef.current!.value;
+      const bio = bioInputRef.current!.value;
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         if (!auth.currentUser) return;
@@ -64,6 +66,9 @@ const Login: React.FC<LoginProps> = ({ stopShowingLogin }) => {
         name: displayName,
         pic: photoURL,
         posts: [],
+        bio: bio,
+        following: [],
+        followed_by: [],
       };
       await setDoc(doc(db, "users", auth.currentUser!.uid), userData);
     } else {
@@ -122,36 +127,46 @@ const Login: React.FC<LoginProps> = ({ stopShowingLogin }) => {
             />
           </FormControl>
           {!isLogin && (
-            <div className="grid grid-cols-2 gap-8">
+            <>
+              <div className="grid grid-cols-2 gap-8">
+                <TextField
+                  variant="standard"
+                  label="Username"
+                  type="text"
+                  inputRef={usernameRef}
+                  required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <PersonIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  variant="standard"
+                  label="Profile Picture "
+                  type="text"
+                  required
+                  inputRef={profilePicRef}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <PortraitIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
               <TextField
                 variant="standard"
-                label="Username"
-                type="text"
-                inputRef={usernameRef}
-                required
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <PersonIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                variant="standard"
-                label="Profile Picture "
+                label="Bio"
                 type="text"
                 required
-                inputRef={profilePicRef}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <PortraitIcon />
-                    </InputAdornment>
-                  ),
-                }}
+                fullWidth
+                inputRef={bioInputRef}
               />
-            </div>
+            </>
           )}
           <div className="flex justify-between gap-8 ">
             <Button

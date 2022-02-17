@@ -29,7 +29,7 @@ const Posts = () => {
   });
 
   //Filtering
-  const followedUserNames = curUserProfile?.following.map((each) => each.name);
+  const followedUserNames = curUserProfile?.following?.map((each) => each.name);
   const followedUserPosts = posts.filter((post) =>
     followedUserNames?.includes(post.author_name)
   );

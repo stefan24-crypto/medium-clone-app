@@ -31,7 +31,7 @@ const AddPost: React.FC = () => {
   const descriptionRef = useRef<HTMLInputElement>();
   const curUser = useAppSelector((state) => state.auth.curUser);
   const curUserProfile = useAppSelector((state) => state.data.users).find(
-    (each) => each.id == curUser.uid
+    (each) => each.id == curUser?.uid
   );
   const router = useRouter();
   const open = Boolean(anchorEl);

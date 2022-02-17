@@ -15,7 +15,7 @@ const User: React.FC<UserProps> = ({ id, name, pic, bio }) => {
   const users = useAppSelector((state) => state.data.users);
   const curUserProfile = users.find((each) => each.id === curUser?.uid);
   const clickedOnUserProfile = users.find((user) => user.id === id);
-  const followingUsersIDs = curUserProfile?.following.map((each) => each.id);
+  const followingUsersIDs = curUserProfile?.following?.map((each) => each.id);
 
   const followHandler = async () => {
     const userDoc = doc(db, "users", curUser?.uid);

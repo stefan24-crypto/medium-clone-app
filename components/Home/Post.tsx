@@ -133,7 +133,10 @@ const PostItem: React.FC<PostProps> = ({
         <div className="bg-black/10 p-1 px-2 rounded-full">
           <span className="text-xs">{category}</span>
         </div>
-        <IconButton onClick={toggleLikedHandler}>
+        <IconButton
+          onClick={toggleLikedHandler}
+          disabled={curUser ? false : true}
+        >
           {isLikedByCurUser ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
         </IconButton>
         <sub>{thisPost?.liked_by.length}</sub>

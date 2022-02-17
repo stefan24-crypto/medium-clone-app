@@ -3,14 +3,51 @@ import React from "react";
 import PostDetail from "../../components/PostDetail/PostDetail";
 import { useAppSelector } from "../../store/hooks";
 import Head from "next/head";
+import { useAppDispatch } from "../../store/hooks";
+import { auth } from "../../firebase";
+import { authActions } from "../../store/auth-slice";
+import { useEffect } from "react";
+import { onSnapshot, collection } from "firebase/firestore";
+import { db } from "../../firebase";
+import { dataActions } from "../../store/data-slice";
 
 const PostPage = () => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const { postID } = router.query;
   const users = useAppSelector((state) => state.data.users);
   const posts = users.flatMap((each) => each.posts);
   const curPost = posts.find((post) => post.id === postID);
+  //Authentication
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        dispatch(authActions.setCurUser(authUser));
+      } else {
+        dispatch(authActions.setCurUser(null));
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  //Data
+  useEffect(() => {
+    onSnapshot(collection(db, "users"), (snapshot) => {
+      snapshot.docs.map((doc) =>
+        dispatch(
+          dataActions.setUsers(
+            snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          )
+        )
+      );
+    });
+  }, []);
+
   if (!curPost) return <div>No Post Found</div>;
+
   return (
     <section>
       <Head>
