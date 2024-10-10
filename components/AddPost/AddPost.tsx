@@ -20,7 +20,7 @@ import createInlineToolbarPlugin from "@draft-js-plugins/inline-toolbar";
 import parse from "html-react-parser";
 import { v4 as uuid } from "uuid";
 import { doc, Timestamp, updateDoc } from "firebase/firestore";
-import { db } from "../../pages/firebase";
+import { db } from "../../firebase";
 import { useRouter } from "next/router";
 
 const AddPost: React.FC = () => {

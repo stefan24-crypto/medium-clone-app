@@ -6,7 +6,7 @@ import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAppSelector } from "../../store/hooks";
-import { db } from "../../pages/firebase";
+import { db } from "../../firebase";
 
 interface PostProps {
   id: string;

@@ -1,6 +1,6 @@
 import { Avatar } from "@mui/material";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../pages/firebase";
+import { db } from "../../firebase";
 import { useAppSelector } from "../../store/hooks";
 
 interface UserProps {

@@ -22,7 +22,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { auth, db } from "../../pages/firebase";
+import { auth, db } from "../../firebase";
 import { User } from "../../models";
 import { doc, setDoc } from "firebase/firestore";
 

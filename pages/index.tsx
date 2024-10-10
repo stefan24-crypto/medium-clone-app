@@ -9,7 +9,7 @@ import { useAppDispatch } from "../store/hooks";
 
 import { dataActions } from "../store/data-slice";
 import Button from "../components/UI/Button";
-import { auth, db } from "./firebase";
+import { auth, db } from "../firebase";
 import { authActions } from "../store/auth-slice";
 import { useRouter } from "next/router";
 import { onSnapshot, collection } from "firebase/firestore";

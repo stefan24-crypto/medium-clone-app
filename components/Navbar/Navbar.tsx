@@ -16,7 +16,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import EditIcon from "@mui/icons-material/Edit";
 import { useAppSelector } from "../../store/hooks";
 import { LogoutOutlined, MenuBook } from "@mui/icons-material";
-import { auth, db } from "../../pages/firebase";
+import { auth, db } from "../../firebase";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Menu from "@mui/material/Menu";
